@@ -1,5 +1,5 @@
 import express from 'express';
-
+import { v4 as uuidv4 } from 'uuid';
 const router = express.Router();
 
 const users = [
@@ -20,25 +20,14 @@ router.get('/', (req, res) => {
     res.send(users);
 });
 
-/**
- * method : POST
- * URL : http://localhost:5000/users
- * body => 
- * {
-        "firstName": "jonny",
-        "lastname": "xaviourg",
-        "age": 24
-}
- * 
- * if we put this data into the body of post request then we get data of added object
- */
-
 router.post('/', (req, res) => {
-    console.log('Post Route');
-    console.log(req.body);
     const user = req.body;
-    users.push(user);
+    const userId = uuidv4();
+    const userWithId = { ...user, id: userId }
+    users.push(userWithId);
     res.send(`user with name ${user.firstName} added to the database`);
 })
 
 export default router;
+
+// here we have install npm package UUID that gives a unique string id
